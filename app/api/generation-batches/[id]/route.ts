@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/utils/supabase/server';
 
 // Get specific batch with pagination by generation rounds
-export async function GET(request: NextRequest, { params }) {
+// Use a generic context type here to satisfy Next.js route handler type checks,
+// and cast locally for strong typing.
+export async function GET(request: NextRequest, context: any) {
   try {
+    const { params } = context as { params: { id: string } };
     const supabase = await createClient();
     
     // Check authentication
